@@ -16,6 +16,7 @@ const Page = () => {
     const [productCategory, setProductCategory] = useState("")
     const [images, setImages] = useState([])
     const [isUploading, setIsUploading] = useState(false)
+    const [productProperties, setProductProperties] = useState({})
 
     const router = useRouter()
     const params = useParams()
@@ -28,6 +29,7 @@ const Page = () => {
             setImages(response.data[0].productImages)
             setProductPrice(response.data[0].productPrice)
             setProductCategory(response.data[0].productCategory._id)
+            setProductProperties(response.data[0].properties || {})
         }).catch((err) => {
             console.log(err.message)
         })
@@ -61,12 +63,12 @@ const Page = () => {
 
         for (const file of files) {
             formData.append("file", file);
-            formData.append("upload_preset", "socioscape")
+            formData.append("upload_preset", process.env.UPLOAD_PRESET)
         }
 
         setIsUploading(true);
         const data = await axios
-            .post("https://api.cloudinary.com/v1_1/digqsa0hu/image/upload",
+            .post(process.env.CLOUDINARY_URL,
                 formData
             )
             .then((response) => {
@@ -82,16 +84,17 @@ const Page = () => {
 
     const EditProduct = async () => {
         console.log(productName, productCategory, productDescription, images, productPrice)
-        await axios.put(`/api/product/edit/${id}`,{
+        await axios.put(`/api/product/edit/${id}`, {
             productName,
             productDescription,
             images,
             productPrice,
-            productCategory
-        }).then((response)=>{
+            productCategory,
+            properties: productProperties
+        }).then((response) => {
             console.log(response)
             router.push("/products")
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err.message)
         })
     }
@@ -101,11 +104,31 @@ const Page = () => {
         setImages(images)
     }
 
+    const showableProperties = []
+
+    if (categoryData?.length > 0 && productCategory) {
+        let temp = categoryData.find(({ _id }) => _id === productCategory)
+        showableProperties.push(...temp?.properties)
+        while (temp?.parentCategory?._id) {
+            const parentinfo = categoryData.find(({ _id }) => _id === temp?.parentCategory?._id)
+            showableProperties.push(...parentinfo?.properties)
+            temp = parentinfo
+        }
+    }
+
+    const handlePropertyChange = (name, value) => {
+        setProductProperties(prev => {
+            const newProductProps = { ...prev }
+            newProductProps[name] = value
+            return newProductProps
+        })
+    }
+
     return (
         <div>
             <div className="w-screen h-screen bg-blue-900 flex">
                 <Navbar />
-                <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center justify-center">
+                <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center justify-center overflow-hidden overflow-y-scroll">
                     <span className='text-blue-900 font-extrabold text-3xl mb-3'>Add New Product</span>
                     <div className='flex flex-col justify-center items-center gap-3'>
                         <label className='text-blue-900 font-bold'>Product Name</label>
@@ -116,6 +139,20 @@ const Page = () => {
                             value={productName}
                             onChange={(e) => setProductName(e.target.value)}
                         />
+                    </div>
+                    <div>
+                        {showableProperties.length > 0 && showableProperties.map(p => (
+                            <div key={p} className='flex gap-2 mb-2 justify-between'>
+                                <div className='text-gray-500'>{p.name}</div>
+                                <select
+                                    value={productProperties[p.name]}
+                                    onChange={e => handlePropertyChange(p.name, e.target.value)} className='w-[200px] h-8 border border-gray-500 rounded-xl appearance-none pl-3 outline-gray-500'>
+                                    {p.values.map(p => (
+                                        <option key={p} value={p}>{p}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        ))}
                     </div>
                     <div className='flex flex-col gap-2 items-center justify-center'>
                         <label className='text-blue-900 font-bold'>Product Images<span className='text-gray-400 font-semibold text-sm'>&nbsp;(max 5)</span></label>
@@ -139,7 +176,7 @@ const Page = () => {
                                     {images.length > 0 ? (<>
                                         {images.map((image) => {
                                             return (
-                                                <img className='w-32 h-32 rounded-xl object-contain' src={image} alt="product-image" />
+                                                <img key={image} className='w-32 h-32 rounded-xl object-contain' src={image} alt="product-image" />
                                             )
                                         })}
                                     </>) : ""}
@@ -160,11 +197,11 @@ const Page = () => {
                     <div className='flex flex-col justify-center items-center gap-3'>
                         <label className='text-blue-900 font-bold'>Choose Product Category</label>
                         <select value={productCategory} className='h-10 w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 appearance-none' onChange={(e) => setProductCategory(e.target.value)}>
-                            <option selected className='pr-3 text-grey-500' value="0">Select Category</option>
+                            <option selected className='pr-3 text-grey-500' value="">Select Category</option>
                             {categoryData?.length > 0 &&
                                 categoryData.map((category) => {
                                     return (
-                                        <option className='pr-3 text-grey-500' value={category._id}>{category.categoryName}</option>
+                                        <option key={category._id} className='pr-3 text-grey-500' value={category._id}>{category.categoryName}</option>
                                     )
                                 })}
                         </select>
@@ -179,7 +216,7 @@ const Page = () => {
                             onChange={(e) => setProductPrice(e.target.value)}
                         />
                     </div>
-                    <button className='h-10 bg-blue-900 w-[12rem] rounded-xl text-white font-bold hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300' onClick={EditProduct}>Edit Product</button>
+                    <button className='h-[2.5rem] bg-blue-900 w-[12rem] rounded-xl text-white font-bold hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300' onClick={EditProduct}>Edit Product</button>
                 </div>
             </div>
         </div>

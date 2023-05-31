@@ -8,7 +8,8 @@ const CategorySchema = new Schema({
     parentCategory: {
         type: Schema.Types.ObjectId,
         ref: 'Category'
-    }
+    },
+    properties: [{type: Object}]
 });
 
 

@@ -5,7 +5,7 @@ export const PUT = async (req, {params}) => {
 
     const id = params.id
 
-    const { productName, productDescription, images, productPrice, productCategory } = await req.json()
+    const { productName, productDescription, images, productPrice, productCategory , properties} = await req.json()
 
     try {
         await connectToDB()
@@ -14,7 +14,8 @@ export const PUT = async (req, {params}) => {
             productCategory,
             productDescription,
             productImages : images,
-            productPrice
+            productPrice,
+            properties
         })
         // const response = await data.save()
         return new Response(JSON.stringify(data), { status: 201 })

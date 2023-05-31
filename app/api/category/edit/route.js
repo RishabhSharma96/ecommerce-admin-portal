@@ -3,13 +3,15 @@ import { connectToDB } from "@utils/database";
 
 export const PUT = async (req) => {
 
-    const { categoryName, parentCategory, id } = await req.json()
+    const { categoryName, parentCategory, id, properties } = await req.json()
+    console.log(parentCategory)
 
     try {
         await connectToDB()
-        const data = await Category.updateOne({_id: id}, {
+        const data = await Category.updateOne({ _id: id }, {
             categoryName,
-            parentCategory
+            parentCategory: parentCategory === "" ? undefined : parentCategory,
+            properties
         })
         // const response = await data.save()
         return new Response(JSON.stringify(data), { status: 201 })

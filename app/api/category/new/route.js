@@ -5,14 +5,15 @@ import { ObjectId } from "mongodb"
 
 export const POST = async (req) => {
 
-    const { categoryName, parentCategory } = await req.json()
+    const { categoryName, parentCategory, properties } = await req.json()
 
 
     try {
         await connectToDB()
         const data = new Category({
             categoryName,
-            parentCategory
+            parentCategory: parentCategory === "" ? undefined : parentCategory,
+            properties
         })
         const response = await data.save()
         return new Response(JSON.stringify(response), { status: 201 })
