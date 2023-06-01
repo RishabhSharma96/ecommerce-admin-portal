@@ -2,9 +2,10 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 import User from '@models/user';
+import Admin from '@models/admin';
 import { connectToDB } from '@utils/database';
 
-const adminEmails = ['rishabhsharma96n@gmail.com']
+var adminEmails = []
 
 const handler = NextAuth({
     providers: [
@@ -16,15 +17,29 @@ const handler = NextAuth({
     callbacks: {
         async session({ session, token, user }) {
 
-            if (adminEmails.includes(session?.user?.email)) {
+            try {
 
-                const sessionUser = await User.findOne({ email: session.user.email });
-                session.user.id = sessionUser._id.toString();
+                await connectToDB();
 
-                return session;
+                const data = await Admin.find()
+                data.map(admin => adminEmails.push(admin.email))
+                console.log(adminEmails)
+
+                if (adminEmails.includes(session?.user?.email)) {
+
+                    const sessionUser = await User.findOne({ email: session.user.email });
+                    session.user.id = sessionUser._id.toString();
+                    adminEmails = []
+                    return session;
+                }
+
+                else {
+                    return false
+                }
+
             }
-            else {
-                return false
+            catch (err) {
+                console.log(err.message)
             }
         },
         async signIn({ profile }) {
