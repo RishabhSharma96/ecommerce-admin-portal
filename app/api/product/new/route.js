@@ -8,14 +8,18 @@ export const POST = async (req) => {
 
 
     try {
+
+        const noOdDocs = await Product.count()
+
         await connectToDB()
         const data = new Product({
             productName,
             productDescription,
-            productCategory,
+            productCategory : productCategory === "" ? undefined : productCategory,
             productImages: images,
             productPrice,
-            properties
+            properties,
+            promoted: noOdDocs === 0 ? true : false
         })
         const response = await data.save()
         return new Response(JSON.stringify(response), { status: 201 })

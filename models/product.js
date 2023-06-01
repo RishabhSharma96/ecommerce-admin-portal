@@ -18,7 +18,15 @@ const ProductSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Category'
     },
-    properties: { type: Object }
+    properties: { type: Object },
+    reviews : {
+        type: Array,
+        default : []
+    },
+    promoted: {
+        type: Boolean,
+        default: false
+    }
 
 });
 

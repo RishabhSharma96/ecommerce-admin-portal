@@ -99,10 +99,23 @@ const page = () => {
                     <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-10 gap-3 xl:gap-4 items-center overflow-hidden overflow-y-scroll">
                         <span className='text-blue-900 font-extrabold text-3xl mb-3'>Utilities</span>
                         <span className='text-blue-900 font-bold text-xl'>Clear All Products</span>
-                        <button onClick={handleProductClear} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300'>Delete Products</button>
+                        <button onClick={handleProductClear} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex justify-center items-center gap-4'>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                            </svg>
 
-                        <span className='text-blue-900 font-bold text-xl'>Clear All Categories </span>
-                        <button onClick={handleCategoryClear} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300'>Delete Catagories</button>
+                            Delete Products</button>
+
+                        <span className='text-blue-900 font-bold text-xl'>
+
+                            Clear All Categories </span>
+                        <button onClick={handleCategoryClear} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex justify-center items-center gap-4'>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                            </svg>
+
+                            Delete Catagories</button>
 
                         <span className='text-blue-900 font-bold text-xl'> Admins</span>
                         {
@@ -145,7 +158,12 @@ const page = () => {
                             value={admin}
                             onChange={e => setAdmin(e.target.value)}
                         />
-                        <button onClick={handleAddAdmin} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300'>Add Admin</button>
+                        <button onClick={handleAddAdmin} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex justify-center items-center gap-4'>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+
+                            Add Admin</button>
                     </div>
                 </div>
             </div>
