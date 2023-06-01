@@ -16,6 +16,7 @@ const Page = () => {
     const [categoryData, setCategoryData] = useState([])
     const [images, setImages] = useState([])
     const [isUploading, setIsUploading] = useState(false)
+    const [productProperties, setProductProperties] = useState({})
 
     const router = useRouter()
 
@@ -33,7 +34,7 @@ const Page = () => {
 
     const uploadImages = async (e) => {
 
-        if(images.length > 4){
+        if (images.length > 4) {
             console.log("max")
             return
         }
@@ -43,12 +44,11 @@ const Page = () => {
 
         for (const file of files) {
             formData.append("file", file);
-            formData.append("upload_preset", process.env.UPLOAD_PRESET)
+            formData.append("upload_preset", "socioscape")
         }
 
         setIsUploading(true);
-        const data = await axios
-            .post(CLOUDINARY_URL,
+        const data = await axios.post('https://api.cloudinary.com/v1_1/digqsa0hu/image/upload',
                 formData
             )
             .then((response) => {
@@ -64,16 +64,17 @@ const Page = () => {
 
     const addProduct = async () => {
         console.log(productName, productCategory, productDescription, images, productPrice)
-        await axios.post('/api/product/new',{
+        await axios.post('/api/product/new', {
             productName,
             productDescription,
             images,
             productPrice,
-            productCategory
-        }).then((response)=>{
+            productCategory,
+            properties: productProperties
+        }).then((response) => {
             console.log(response)
             router.push("/products")
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err.message)
         })
     }
@@ -81,6 +82,26 @@ const Page = () => {
     const updateOrder = (images) => {
         console.log(images)
         setImages(images)
+    }
+
+    const showableProperties = []
+
+    if (categoryData?.length > 0 && productCategory) {
+        let temp = categoryData.find(({ _id }) => _id === productCategory)
+        showableProperties.push(...temp?.properties)
+        while (temp?.parentCategory?._id) {
+            const parentinfo = categoryData.find(({ _id }) => _id === temp?.parentCategory?._id)
+            showableProperties.push(...parentinfo?.properties)
+            temp = parentinfo
+        }
+    }
+
+    const handlePropertyChange = (name, value) => {
+        setProductProperties(prev => {
+            const newProductProps = { ...prev }
+            newProductProps[name] = value
+            return newProductProps
+        })
     }
 
     return (
@@ -99,6 +120,18 @@ const Page = () => {
                             onChange={(e) => setProductName(e.target.value)}
                         />
                     </div>
+                    {showableProperties.length > 0 && showableProperties.map(p => (
+                        <div key={p} className='flex gap-2 mb-2 justify-between'>
+                            <div className='text-gray-500'>{p.name}</div>
+                            <select
+                                value={productProperties[p.name]}
+                                onChange={e => handlePropertyChange(p.name, e.target.value)} className='w-[200px] h-8 border border-gray-500 rounded-xl appearance-none pl-3 outline-gray-500'>
+                                {p.values.map(p => (
+                                    <option key={p} value={p}>{p}</option>
+                                ))}
+                            </select>
+                        </div>
+                    ))}
                     <div className='flex flex-col gap-2 items-center justify-center'>
                         <label className='text-blue-900 font-bold'>Product Images<span className='text-gray-400 font-semibold text-sm'>&nbsp;(max 5)</span></label>
                         <div className='flex gap-2'>

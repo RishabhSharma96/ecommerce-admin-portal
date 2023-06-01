@@ -4,7 +4,7 @@ import { connectToDB } from "@utils/database";
 export const POST = async (req) => {
 
     const { productName,
-        productDescription, productPrice, images, productCategory } = await req.json()
+        productDescription, productPrice, images, productCategory, properties } = await req.json()
 
 
     try {
@@ -14,7 +14,8 @@ export const POST = async (req) => {
             productDescription,
             productCategory,
             productImages: images,
-            productPrice
+            productPrice,
+            properties
         })
         const response = await data.save()
         return new Response(JSON.stringify(response), { status: 201 })

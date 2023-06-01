@@ -63,12 +63,12 @@ const Page = () => {
 
         for (const file of files) {
             formData.append("file", file);
-            formData.append("upload_preset", process.env.UPLOAD_PRESET)
+            formData.append("upload_preset", 'socioscape')
         }
 
         setIsUploading(true);
         const data = await axios
-            .post(process.env.CLOUDINARY_URL,
+            .post('https://api.cloudinary.com/v1_1/digqsa0hu/image/upload',
                 formData
             )
             .then((response) => {
