@@ -16,6 +16,8 @@ const Page = () => {
     const [prePromotedProductId, setPrePromotedProductId] = useState(null)
     const [newPromotedProductId, setNewPromotedProductId] = useState(null)
     const [productData, setProductData] = useState(null)
+    const [currentshippingDetails, setCurrrentShippingDetails] = useState({})
+    const [newShippingPrice, setNewShippingPrice] = useState(0)
 
     useEffect(() => {
         const setUpProviders = async () => {
@@ -67,6 +69,34 @@ const Page = () => {
 
     }
 
+    const getShippingDetails = async () => {
+        await axios.get("/api/settings/shipping").then((response) => {
+            setCurrrentShippingDetails(response.data)
+            setNewShippingPrice(response.data[0].shippingPrice)
+        }).catch((err) => {
+            console.log(err.message)
+        })
+    }
+
+    useEffect(() => {
+        getShippingDetails()
+    }, [])
+
+    const UpdateShippingPrice = async () => {
+
+        console.log(newShippingPrice, currentshippingDetails[0]._id)
+
+        await axios.patch("/api/settings/shipping/update", {
+            currentshippingPrice: newShippingPrice,
+            id: currentshippingDetails[0]._id
+        }).then((response) => {
+            getShippingDetails()
+        }).catch((err) => {
+            console.log(err.message)
+        })
+    }
+
+
     if (!session) {
         return (<div className="bg-blue-900 w-screen h-screen flex items-center justify-center">
             <div className="flex flex-col items-center justify-center">
@@ -94,7 +124,7 @@ const Page = () => {
             <div>
                 <div className="w-screen h-screen bg-blue-900 flex">
                     <Navbar />
-                    <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-8 lg:p-10 gap-3 xl:gap-4 items-center overflow-hidden overflow-y-scroll">
+                    <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-8 lg:p-10 gap-3 xl:gap-4 items-center justify-center overflow-hidden overflow-y-scroll">
                         <p className='text-blue-900 font-extrabold text-2xl xl:text-3xl mb-3 '>Shop-It Settings</p>
                         {
                             prePromotedProduct && (
@@ -140,6 +170,16 @@ const Page = () => {
                             </select>
                         </div>
                         <button onClick={handleproductupdation} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300'>Set Product</button>
+
+                        <input
+                            className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 [appearance-textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+                            type="number"
+                            placeholder='Enter Shipping Price'
+                            value={newShippingPrice}
+                            onChange={e => setNewShippingPrice(e.target.value)}
+                        />
+                        <button onClick={UpdateShippingPrice} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300'>Set Shipping Price</button>
+
                     </div>
                 </div>
             </div>

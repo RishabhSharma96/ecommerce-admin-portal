@@ -1,4 +1,5 @@
 import mongoose, { Schema, models, model } from "mongoose";
+import Category from "./category";
 
 const ProductSchema = new Schema({
     productName: {
@@ -16,7 +17,7 @@ const ProductSchema = new Schema({
     },
     productCategory: {
         type: Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: Category.modelName
     },
     properties: { type: Object },
     reviews : {
