@@ -146,11 +146,11 @@ const Page = () => {
                 <div className="w-screen h-screen bg-blue-900 flex">
                     <Navbar />
                     <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center overflow-hidden overflow-y-scroll">
-                        <span className='text-blue-900 font-extrabold text-3xl mb-3'>Add New Product</span>
+                        <span className='text-blue-900 font-extrabold text-3xl mb-3'>Add Product</span>
                         <div className='flex flex-col justify-center items-center gap-3'>
                             <label className='text-blue-900 font-bold'>Product Name</label>
                             <input
-                                className='h-10 w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500'
+                                className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500'
                                 type="text"
                                 placeholder='Enter Product Name'
                                 value={productName}
@@ -162,7 +162,7 @@ const Page = () => {
                                 <div className='text-gray-500'>{p.name}</div>
                                 <select
                                     value={productProperties[p.name]}
-                                    onChange={e => handlePropertyChange(p.name, e.target.value)} className='w-[200px] h-8 border border-gray-500 rounded-xl appearance-none pl-3 outline-gray-500'>
+                                    onChange={e => handlePropertyChange(p.name, e.target.value)} className='w-[160px] h-8 border border-gray-500 rounded-xl appearance-none pl-3 outline-gray-500'>
                                     {p.values.map(p => (
                                         <option key={p} value={p}>{p}</option>
                                     ))}
@@ -186,8 +186,8 @@ const Page = () => {
                                         <HashLoader color={"gray"} />
                                     </div>
                                 )}
-                                <div className='flex gap-2'>
-                                    <ReactSortable className='flex gap-2' list={images} setList={updateOrder}>
+                                <div className='flex gap-2 flex-wrap'>
+                                    <ReactSortable className='flex gap-2 flex-wrap' list={images} setList={updateOrder}>
                                         {images.length > 0 ? (<>
                                             {images.map((image) => {
                                                 return (
@@ -202,7 +202,7 @@ const Page = () => {
                         <div className='flex flex-col justify-center items-center gap-3'>
                             <label className='text-blue-900 font-bold'>Product Description</label>
                             <textarea
-                                className='h-[2.6rem] w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 resize-none'
+                                className='h-[2.6rem] w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 resize-none'
                                 type="text"
                                 placeholder='Enter Product Description'
                                 value={productDescription}
@@ -211,7 +211,7 @@ const Page = () => {
                         </div>
                         <div className='flex flex-col justify-center items-center gap-3'>
                             <label className='text-blue-900 font-bold'>Choose Product Category</label>
-                            <select className='h-10 w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 appearance-none' onChange={(e) => setProductCategory(e.target.value)}>
+                            <select className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 appearance-none' onChange={(e) => setProductCategory(e.target.value)}>
                                 <option selected className='pr-3 text-grey-500' value="0">Select Category</option>
                                 {categoryData?.length > 0 &&
                                     categoryData.map((category) => {
@@ -224,7 +224,7 @@ const Page = () => {
                         <div className='flex flex-col justify-center items-center gap-3'>
                             <label className='text-blue-900 font-bold'>Price</label>
                             <input
-                                className='h-10 w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 [appearance-textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+                                className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 [appearance-textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
                                 type="number"
                                 placeholder='Enter Product Price'
                                 value={productPrice}

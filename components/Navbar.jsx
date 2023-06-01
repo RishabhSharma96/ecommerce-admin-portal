@@ -7,13 +7,17 @@ import { usePathname, useRouter } from "next/navigation"
 const Navbar = () => {
 
     const inactiveLink = "flex mt-3 font-bold gap-3"
-    const activeLink = "flex mt-3 font-bold gap-3 bg-white text-blue-900 p-2 rounded-xl pl-6"
+    const activeLink = "flex mt-3 font-bold gap-3 bg-white text-blue-900 md:p-2 pt-2 pb-2 pl-1 rounded-xl md:pl-6"
     const router = useRouter()
     const pathname = usePathname()
 
+    const logout = async () => {
+        await signOut()
+    }
+
     return (
         <div>
-            <div className="md:w-[17rem] w-12 h-screen text-white flex flex-col pl-8 gap-4 pt-4 text-l font-poppins">
+            <div className="md:w-[17rem] h-screen text-white flex flex-col md:pl-8 pl-2 gap-4 pt-4 text-l font-poppins bg-blue-900 mr-4 md:mr-0">
                 <Link className="flex mt-3 font-bold gap-3 text-2xl" href="/">
                     <svg className="h-[30px] text-pink-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
@@ -67,7 +71,7 @@ const Navbar = () => {
                     <span className="hidden md:flex">Utilities</span>
                 </Link>
 
-                <div className="flex mt-3 font-bold gap-3 cursor-pointer" onClick={() => { signOut() }}>
+                <div className="flex mt-3 font-bold gap-3 cursor-pointer" onClick={logout}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                     </svg>

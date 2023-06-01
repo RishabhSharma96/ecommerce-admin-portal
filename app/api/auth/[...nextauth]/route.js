@@ -4,6 +4,8 @@ import GoogleProvider from 'next-auth/providers/google';
 import User from '@models/user';
 import { connectToDB } from '@utils/database';
 
+const adminEmails = ['rishabhsharma96n@gmail.com']
+
 const handler = NextAuth({
     providers: [
         GoogleProvider({
@@ -12,12 +14,18 @@ const handler = NextAuth({
         })
     ],
     callbacks: {
-        async session({ session }) {
+        async session({ session, token, user }) {
 
-            const sessionUser = await User.findOne({ email: session.user.email });
-            session.user.id = sessionUser._id.toString();
+            if (adminEmails.includes(session?.user?.email)) {
 
-            return session;
+                const sessionUser = await User.findOne({ email: session.user.email });
+                session.user.id = sessionUser._id.toString();
+
+                return session;
+            }
+            else {
+                return false
+            }
         },
         async signIn({ profile }) {
             try {
