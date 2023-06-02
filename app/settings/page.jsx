@@ -6,6 +6,7 @@ import axios from 'axios'
 import { getProviders, useSession, signIn, signOut } from 'next-auth/react'
 import Image from "next/image"
 import logo from "@public/logo.png"
+import { toast } from 'react-hot-toast'
 
 const Page = () => {
 
@@ -55,6 +56,11 @@ const Page = () => {
 
     const handleproductupdation = async () => {
 
+        if (!newPromotedProductId) {
+            toast.error("null cannot be promoted")
+            return
+        }
+
         await axios.patch("/api/settings/newpromotion", {
             newPromotedProductId,
             prePromotedProductId
@@ -63,6 +69,7 @@ const Page = () => {
             setNewPromotedProductId(null)
             getPromotedProduct()
             getProducts()
+            toast.success("New product promoted")
         }).catch((err) => {
             console.log(err.message)
         })
@@ -91,6 +98,7 @@ const Page = () => {
             id: currentshippingDetails[0]._id
         }).then((response) => {
             getShippingDetails()
+            toast.success("Shipping price setted to " + newShippingPrice)
         }).catch((err) => {
             console.log(err.message)
         })
@@ -102,7 +110,10 @@ const Page = () => {
             <div className="flex flex-col items-center justify-center">
                 <Image src={logo} width={250} height={250} alt="Company logo" />
                 <span className="text-white font-bold text-lg">Welcome to Shop-it Admin Portal</span>
-                <button key={providers?.name} onClick={() => signIn('google')} className="bg-white h-[2.5rem] w-[12rem] mt-5 rounded-lg text-blue-900 font-bold flex items-center justify-center gap-2">
+                <button key={providers?.name} onClick={async () => {
+                    await signIn('google')
+                    toast.success("Logged In")
+                }} className="bg-white h-[2.5rem] w-[12rem] mt-5 rounded-lg text-blue-900 font-bold flex items-center justify-center gap-2">
                     <span>
                         <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" /></svg>
                     </span>
@@ -169,7 +180,12 @@ const Page = () => {
                                     })}
                             </select>
                         </div>
-                        <button onClick={handleproductupdation} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300'>Set Product</button>
+                        <button onClick={handleproductupdation} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex gap-3 items-center justify-center'>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+                            </svg>
+
+                            Set Product</button>
 
                         <input
                             className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 [appearance-textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
@@ -178,7 +194,12 @@ const Page = () => {
                             value={newShippingPrice}
                             onChange={e => setNewShippingPrice(e.target.value)}
                         />
-                        <button onClick={UpdateShippingPrice} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300'>Set Shipping Price</button>
+                        <button onClick={UpdateShippingPrice} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex gap-3 items-center justify-center'>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                            </svg>
+
+                            Set Shipping Price</button>
 
                     </div>
                 </div>

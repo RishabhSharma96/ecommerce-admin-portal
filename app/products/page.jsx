@@ -7,8 +7,10 @@ import axios from 'axios'
 import Image from "next/image"
 import logo from "@public/logo.png"
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
+import { withSwal } from 'react-sweetalert2';
+import { toast } from 'react-hot-toast'
 
-const Page = () => {
+const Page = ({ swal }) => {
 
     const router = useRouter()
     const [productData, setProductData] = useState([])
@@ -38,12 +40,28 @@ const Page = () => {
     }, [])
 
     const deleteProduct = async (product) => {
-        await axios.delete(`/api/product/delete/${product._id}`).then((response) => {
-            console.log(response);
-            getProducts()
-        }).catch((err) => {
-            console.log(err.message)
-        })
+        swal.fire({
+            title: 'Are You Sure?',
+            text: 'Confirm delete ' + product.productName,
+            showCancelButton: true,
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Yes, Delete!',
+            reverseButtons: true,
+            confirmButtonColor: '#d55',
+
+        }).then(async result => {
+            if (result.isConfirmed) {
+                await axios.delete(`/api/product/delete/${product._id}`).then((response) => {
+                    getProducts()
+                    toast.success(`${product.productName} deleted`)
+                }).catch((err) => {
+                    console.log(err.message)
+                })
+            }
+        }).catch(error => {
+            toast.error(err.message)
+        });
+
     }
 
     if (!session) {
@@ -51,7 +69,10 @@ const Page = () => {
             <div className="flex flex-col items-center justify-center">
                 <Image src={logo} width={250} height={250} alt="Company logo" />
                 <span className="text-white font-bold text-lg">Welcome to Shop-it Admin Portal</span>
-                <button key={providers?.name} onClick={() => signIn('google')} className="bg-white h-[2.5rem] w-[12rem] mt-5 rounded-lg text-blue-900 font-bold flex items-center justify-center gap-2">
+                <button key={providers?.name} onClick={async () => {
+                    await signIn('google')
+                    toast.success("Logged In")
+                }} className="bg-white h-[2.5rem] w-[12rem] mt-5 rounded-lg text-blue-900 font-bold flex items-center justify-center gap-2">
                     <span>
                         <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" /></svg>
                     </span>
@@ -75,7 +96,12 @@ const Page = () => {
                     <Navbar />
                     <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center overflow-hidden overflow-y-scroll">
                         <span className='text-blue-900 font-extrabold text-3xl mb-3'>Products</span>
-                        <button className='h-10 bg-blue-900 w-[12rem] rounded-xl text-white font-bold hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300' onClick={() => router.push("/products/new")}>Add new Product</button>
+                        <button className='h-10 bg-blue-900 w-[12rem] rounded-xl text-white font-bold hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex items-center justify-center gap-3' onClick={() => router.push("/products/new")}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+
+                            Add new Product</button>
                         <div className=' min-w-[260px] border border-gray-600 w-[80%] rounded-xl p-1'>
                             <div className='bg-blue-900 text-white flex items-center h-12 justify-center font-bold text-xl rounded-t-xl'>Availaible Products</div>
                             <div>
@@ -100,7 +126,7 @@ const Page = () => {
                                                 {product.productName}
                                             </div>
                                             <div className='hidden lg:flex w-[50%] flex gap-2 flex-col pl-5 items-center justify-center text-gray-400'>
-                                            ₹{product.productPrice}
+                                                ₹{product.productPrice}
                                             </div>
                                             <div className='w-[33.33%] lg:w-[50%] flex flex-col gap-2 pl-5 items-center justify-center'>
                                                 {product?.productCategory ? product.productCategory.categoryName : ""}
@@ -129,4 +155,8 @@ const Page = () => {
     }
 }
 
-export default Page 
+// export default Page 
+
+export default withSwal(({ swal }, ref) => (
+    <Page swal={swal} />
+))

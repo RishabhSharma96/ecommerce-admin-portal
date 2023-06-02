@@ -5,6 +5,7 @@ import logo from "@public/logo.png"
 import { useState, useEffect } from "react"
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
 import Navbar from "@components/Navbar"
+import { toast } from "react-hot-toast"
 
 const HomePage = ({ children }) => {
 
@@ -24,7 +25,10 @@ const HomePage = ({ children }) => {
             <div className="flex flex-col items-center justify-center">
                 <Image src={logo} width={250} height={250} alt="Company logo" />
                 <span className="text-white font-bold text-lg">Welcome to Shop-it Admin Portal</span>
-                <button key={providers?.name} onClick={() => signIn('google')} className="bg-white h-[2.5rem] w-[12rem] mt-5 rounded-lg text-blue-900 font-bold flex items-center justify-center gap-2">
+                <button key={providers?.name} onClick={async () => {
+                    await signIn('google')
+                    toast.success("Logged In")
+                }} className="bg-white h-[2.5rem] w-[12rem] mt-5 rounded-lg text-blue-900 font-bold flex items-center justify-center gap-2">
                     <span>
                         <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" /></svg>
                     </span>
@@ -44,7 +48,7 @@ const HomePage = ({ children }) => {
 
     else {
         return (
-            <div>
+            < >
                 <div className="w-screen h-screen bg-blue-900 flex">
                     <Navbar />
                     <div className="bg-white flex-grow ml ml-[-10px] m-2 rounded-xl">
@@ -62,7 +66,7 @@ const HomePage = ({ children }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </ >
         )
     }
 }

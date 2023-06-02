@@ -3,8 +3,10 @@
 import Link from "next/link"
 import { signOut } from 'next-auth/react'
 import { usePathname, useRouter } from "next/navigation"
+import { withSwal } from "react-sweetalert2"
+import { toast } from "react-hot-toast"
 
-const Navbar = () => {
+const Navbar = ({ swal }) => {
 
     const inactiveLink = "flex mt-3 font-bold gap-3"
     const activeLink = "flex mt-3 font-bold gap-3 bg-white text-blue-900 md:p-2 pt-2 pb-2 pl-1 rounded-xl md:pl-6"
@@ -12,7 +14,23 @@ const Navbar = () => {
     const pathname = usePathname()
 
     const logout = async () => {
-        await signOut()
+
+        swal.fire({
+            title: 'Are You Sure to logout?',
+            showCancelButton: true,
+            cancelButtonText: 'Return',
+            confirmButtonText: 'Yes!',
+            reverseButtons: true,
+            confirmButtonColor: '#d55',
+
+        }).then(async result => {
+            if (result.isConfirmed) {
+                await signOut()
+                toast.success("Logged out")
+            }
+        }).catch(error => {
+            toast.error(err.message)
+        });
     }
 
     return (
@@ -93,4 +111,8 @@ const Navbar = () => {
     )
 }
 
-export default Navbar 
+// export default Navbar
+
+export default withSwal(({ swal }, ref) => (
+    <Navbar swal={swal} />
+))

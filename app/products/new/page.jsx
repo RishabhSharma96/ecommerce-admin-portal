@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import Image from "next/image"
 import logo from "@public/logo.png"
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
+import { toast } from 'react-hot-toast'
 
 const Page = () => {
 
@@ -48,8 +49,8 @@ const Page = () => {
 
     const uploadImages = async (e) => {
 
-        if (images.length > 4) {
-            console.log("max")
+        if (images.length > 3) {
+            toast.error("Max limit is 4")
             return
         }
 
@@ -58,7 +59,7 @@ const Page = () => {
 
         for (const file of files) {
             formData.append("file", file);
-            formData.append("upload_preset",process.env.NEXT_PUBLIC_UPLOAD_PRESET)
+            formData.append("upload_preset", process.env.NEXT_PUBLIC_UPLOAD_PRESET)
         }
 
         setIsUploading(true);
@@ -77,7 +78,12 @@ const Page = () => {
     }
 
     const addProduct = async () => {
-        console.log(productName, productCategory, productDescription, images, productPrice)
+
+        if(!productName || !productCategory || !productDescription ||  !images || !productPrice){
+            toast.error("Please enter all the details")
+            return
+        }
+
         await axios.post('/api/product/new', {
             productName,
             productDescription,
@@ -88,6 +94,7 @@ const Page = () => {
         }).then((response) => {
             console.log(response)
             router.push("/products")
+            toast.success(`${productName} has been added`)
         }).catch((err) => {
             console.log(err.message)
         })
@@ -123,7 +130,10 @@ const Page = () => {
             <div className="flex flex-col items-center justify-center">
                 <Image src={logo} width={250} height={250} alt="Company logo" />
                 <span className="text-white font-bold text-lg">Welcome to Shop-it Admin Portal</span>
-                <button key={providers?.name} onClick={() => signIn('google')} className="bg-white h-[2.5rem] w-[12rem] mt-5 rounded-lg text-blue-900 font-bold flex items-center justify-center gap-2">
+                <button key={providers?.name} onClick={async () => {
+                    await signIn('google')
+                    toast.success("Logged In")
+                }} className="bg-white h-[2.5rem] w-[12rem] mt-5 rounded-lg text-blue-900 font-bold flex items-center justify-center gap-2">
                     <span>
                         <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" /></svg>
                     </span>
@@ -170,7 +180,7 @@ const Page = () => {
                             </div>
                         ))}
                         <div className='flex flex-col gap-2 items-center justify-center'>
-                            <label className='text-blue-900 font-bold'>Product Images<span className='text-gray-400 font-semibold text-sm'>&nbsp;(max 5)</span></label>
+                            <label className='text-blue-900 font-bold'>Product Images<span className='text-gray-400 font-semibold text-sm'>&nbsp;(max 4)</span></label>
                             <div className='flex gap-2'>
                                 <button className='flex flex-col justify-center items-center gap-3'>
                                     <label className='cursor-pointer bg-gray-300 h-32 w-32 rounded-xl flex flex-col items-center justify-center text-gray-600 gap-2 font-bold'>
@@ -231,10 +241,23 @@ const Page = () => {
                                 onChange={(e) => setProductPrice(e.target.value)}
                             />
                         </div>
-                        <button className='h-10 bg-blue-900 w-[12rem] rounded-xl text-white font-bold hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300' onClick={addProduct}>Add Product</button>
+                        <div className='flex md:flex-row flex-col gap-3 justify-center items-center'>
+                            <button className='h-10 bg-blue-900 w-[10rem] rounded-xl text-white font-bold hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex items-center justify-center gap-3' onClick={addProduct}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                                Add Product</button>
+                            <button className='h-10 bg-red-700 w-[7rem] rounded-xl text-white font-bold hover:border hover:border-red-500 hover:text-red-700 hover:bg-white transition-all duration-300 flex items-center justify-center gap-3' onClick={() => router.push('/products')}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+
+                                Cancel</button>
+                        </div>
+
                     </div>
                 </div>
-            </div>
+            </div >
         )
     }
 }
