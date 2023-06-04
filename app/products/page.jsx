@@ -9,6 +9,9 @@ import logo from "@public/logo.png"
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
 import { withSwal } from 'react-sweetalert2';
 import { toast } from 'react-hot-toast'
+import {
+    BeatLoader
+} from 'react-spinners'
 
 const Page = ({ swal }) => {
 
@@ -90,11 +93,21 @@ const Page = ({ swal }) => {
         </div>)
     }
     else {
+
         return (
             <div>
+
                 <div className="w-screen h-screen bg-blue-900 flex">
                     <Navbar />
-                    <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center overflow-hidden overflow-y-scroll">
+                    {!productData.length &&
+                        (
+                            <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center justify-center overflow-hidden overflow-y-scroll">
+                                <BeatLoader
+                                    color="rgba(39, 39, 184, 0.82)" />
+                            </div>
+                        )
+                    }
+                    {productData.length > 0 && (<div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center overflow-hidden overflow-y-scroll">
                         <span className='text-blue-900 font-extrabold text-3xl mb-3'>Products</span>
                         <button className='h-10 bg-blue-900 w-[12rem] rounded-xl text-white font-bold hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex items-center justify-center gap-3' onClick={() => router.push("/products/new")}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -148,9 +161,10 @@ const Page = ({ swal }) => {
                                 })}
                             </div>
                         </div>
-                    </div>
+                    </div>)
+                    }
                 </div>
-            </div>
+            </div >
         )
     }
 }

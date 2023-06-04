@@ -3,7 +3,7 @@
 import Navbar from '@components/Navbar'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { HashLoader } from "react-spinners"
+import { HashLoader, BeatLoader } from "react-spinners"
 import { ReactSortable } from 'react-sortablejs'
 import { useParams, useRouter } from 'next/navigation'
 import Image from "next/image"
@@ -19,6 +19,8 @@ const Page = () => {
     const [productPrice, setProductPrice] = useState("")
     const [productCategory, setProductCategory] = useState("")
     const [images, setImages] = useState([])
+    const [isUploadingProducts, setIsUploadingProducts] = useState(false)
+    const [isUploadingCategories, setIsUploadingCategories] = useState(false)
     const [isUploading, setIsUploading] = useState(false)
     const [productProperties, setProductProperties] = useState({})
 
@@ -38,6 +40,7 @@ const Page = () => {
     }, [])
 
     const getProduct = async () => {
+        setIsUploadingProducts(true)
         await axios.get(`/api/product/${id}`).then((response) => {
             setProductName(response.data[0].productName)
             setProductDescription(response.data[0].productDescription)
@@ -48,14 +51,17 @@ const Page = () => {
         }).catch((err) => {
             console.log(err.message)
         })
+        setIsUploadingProducts(false)
     }
 
     const getCategories = async () => {
+        setIsUploadingCategories(true)
         await axios.get("/api/category").then((response) => {
             setCategoryData(response.data)
         }).catch((err) => {
             console.log(err.message)
         })
+        setIsUploadingCategories(false)
     }
 
     useEffect(() => {
@@ -81,7 +87,8 @@ const Page = () => {
             formData.append("upload_preset", process.env.NEXT_PUBLIC_UPLOAD_PRESET)
         }
 
-        setIsUploading(true);
+        setIsUploading(true)
+
         const data = await axios
             .post(process.env.NEXT_PUBLIC_CLOUDINARY_URL,
                 formData
@@ -176,7 +183,14 @@ const Page = () => {
             <div>
                 <div className="w-screen h-screen bg-blue-900 flex">
                     <Navbar />
-                    <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center overflow-hidden overflow-y-scroll">
+                    {isUploadingCategories && isUploadingProducts &&
+                        (
+                            <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center justify-center overflow-hidden overflow-y-scroll">
+                                <BeatLoader color="rgba(39, 39, 184, 0.82)" />
+                            </div>
+                        )
+                    }
+                    {!isUploadingCategories && !isUploadingProducts && (<div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center overflow-hidden overflow-y-scroll">
                         <span className='text-blue-900 font-extrabold text-3xl mb-3'>Edit Product</span>
                         <div className='flex flex-col justify-center items-center gap-3'>
                             <label className='text-blue-900 font-bold'>Product Name</label>
@@ -278,7 +292,7 @@ const Page = () => {
 
                                 Cancel</button>
                         </div>
-                    </div>
+                    </div>)}
                 </div>
             </div >
         )

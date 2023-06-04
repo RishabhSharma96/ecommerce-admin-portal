@@ -8,6 +8,9 @@ import Image from "next/image"
 import logo from "@public/logo.png"
 import { toast } from 'react-hot-toast'
 import { withSwal } from 'react-sweetalert2'
+import {
+    BeatLoader
+} from 'react-spinners'
 
 const Page = ({ swal }) => {
 
@@ -164,77 +167,91 @@ const Page = ({ swal }) => {
             <div>
                 <div className="w-screen h-screen bg-blue-900 flex">
                     <Navbar />
-                    <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-10 gap-3 xl:gap-4 items-center overflow-hidden overflow-y-scroll">
-                        <span className='text-blue-900 font-extrabold text-3xl mb-3'>Utilities</span>
-                        <span className='text-blue-900 font-bold text-xl'>Clear All Products</span>
-                        <button onClick={handleProductClear} className='w-[200px] bg-red-700 text-white font-bold h-10 rounded-xl hover:border hover:border-red-700 hover:text-red-700 hover:bg-white transition-all duration-300 flex justify-center items-center gap-4'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                            </svg>
+                    {!adminData.length &&
+                        (
+                            <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center justify-center overflow-hidden overflow-y-scroll">
+                                <BeatLoader
+                                    color="rgba(39, 39, 184, 0.82)" />
+                            </div>
+                        )
+                    }
+                    {adminData.length > 0 && (
+                        <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-10 gap-3 xl:gap-4 items-center overflow-hidden overflow-y-scroll">
+                            <span className='text-blue-900 font-extrabold text-3xl mb-3'>Utilities</span>
+                            <span className='text-blue-900 font-bold text-xl'>Clear All Products</span>
+                            <button onClick={handleProductClear} className='w-[200px] bg-red-700 text-white font-bold h-10 rounded-xl hover:border hover:border-red-700 hover:text-red-700 hover:bg-white transition-all duration-300 flex justify-center items-center gap-4'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                                </svg>
 
-                            Delete Products</button>
+                                Delete Products</button>
 
-                        <span className='text-blue-900 font-bold text-xl'>
+                            <span className='text-blue-900 font-bold text-xl'>
 
-                            Clear All Categories </span>
-                        <button onClick={handleCategoryClear} className='w-[200px] bg-red-700 text-white font-bold h-10 rounded-xl hover:border hover:border-red-700 hover:text-red-700 hover:bg-white transition-all duration-300 flex justify-center items-center gap-4'>
+                                Clear All Categories </span>
+                            <button onClick={handleCategoryClear} className='w-[200px] bg-red-700 text-white font-bold h-10 rounded-xl hover:border hover:border-red-700 hover:text-red-700 hover:bg-white transition-all duration-300 flex justify-center items-center gap-4'>
 
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                            </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                                </svg>
 
-                            Delete Catagories</button>
+                                Delete Catagories</button>
 
-                        <span className='text-blue-900 font-bold text-xl'> Admins</span>
-                        {
-                            adminData.length > 0 && (
-                                <div className='min-w-[250px] border border-gray-600 w-[60%] rounded-xl lg:p-1'>
-                                    <div className='bg-blue-900 text-white flex items-center h-12 justify-center font-bold text-xl rounded-t-xl'>Availaible Admins</div>
-                                    <div>
-                                        <div className="flex mb-1">
-                                            <div className='w-[80%] flex flex-col gap-0 lg:gap-2 p-3 pl-5 bg-blue-600 text-white font-bold text-l items-center'>
-                                                Admin-id
-                                            </div>
-                                            <div className='w-[30%] flex flex-col gap-0 lg:gap-2 p-3 pl-5 bg-blue-600 text-white font-bold text-l items-center pr-3'>
-                                                Options
-                                            </div>
-                                        </div>
-                                        {adminData.length > 0 && adminData.map((admin, index) => {
-                                            return (
-                                                <div key={admin._id} className="flex">
-                                                    <div className='w-[80%] flex gap-0 lg:gap-2 flex-col pl-5 text-center justify-center overflow-hidden'>
-                                                        {admin.email}
-                                                    </div>
-                                                    <div className='w-[30%] flex pl-5 items-center gap-[-2] lg:gap-2 justify-center ml-[-10px] md:ml-0 pr-2'>
-                                                        <button onClick={() => handleAdminDelete(admin._id)}>
-                                                            <svg className='h-[40px] text-red-600' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                                            </svg>
-                                                        </button>
-                                                    </div>
+                            <span className='text-blue-900 font-bold text-xl'> Admins</span>
+                            {
+                                adminData.length > 0 && (
+                                    <div className='min-w-[250px] border border-gray-600 w-[60%] rounded-xl lg:p-1'>
+                                        <div className='bg-blue-900 text-white flex items-center h-12 justify-center font-bold text-xl rounded-t-xl'>Availaible Admins</div>
+                                        <div>
+                                            <div className="flex mb-1">
+                                                <div className='w-[80%] flex flex-col gap-0 lg:gap-2 p-3 pl-5 bg-blue-600 text-white font-bold text-l items-center'>
+                                                    Admin-id
                                                 </div>
-                                            )
-                                        })}
+                                                <div className='w-[30%] flex flex-col gap-0 lg:gap-2 p-3 pl-5 bg-blue-600 text-white font-bold text-l items-center pr-3'>
+                                                    Options
+                                                </div>
+                                            </div>
+                                            {adminData.length > 0 && adminData.map((admin, index) => {
+                                                return (
+                                                    <div key={admin._id} className="flex">
+                                                        <div className='w-[80%] flex gap-0 lg:gap-2 flex-col pl-5 text-center justify-center overflow-hidden'>
+                                                            {admin.email}
+                                                        </div>
+                                                        <div className='w-[30%] flex pl-5 items-center gap-[-2] lg:gap-2 justify-center ml-[-10px] md:ml-0 pr-2'>
+                                                            <button onClick={() => handleAdminDelete(admin._id)}>
+                                                                <svg className='h-[40px] text-red-600' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
                                     </div>
-                                </div>
-                            )
-                        }
-                        <input
-                            type="email"
-                            placeholder='Enter e-mail to be added as admin'
-                            className='mr-2 lg:mr-0 xl:w-[350px] w-[230px] border border-gray-600 h-10 pl-3 rounded-xl focus:outline-blue-500'
-                            value={admin}
-                            onChange={e => setAdmin(e.target.value)}
-                        />
-                        <button onClick={handleAddAdmin} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex justify-center items-center gap-4'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
+                                )
+                            }
 
-                            Add Admin</button>
-                    </div>
+
+
+
+                            <input
+                                type="email"
+                                placeholder='Enter e-mail to be added as admin'
+                                className='mr-2 lg:mr-0 xl:w-[350px] w-[230px] border border-gray-600 h-10 pl-3 rounded-xl focus:outline-blue-500'
+                                value={admin}
+                                onChange={e => setAdmin(e.target.value)}
+                            />
+                            <button onClick={handleAddAdmin} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex justify-center items-center gap-4'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+
+                                Add Admin</button>
+                        </div>
+                    )}
                 </div>
-            </div>
+            </div >
         )
     }
 }

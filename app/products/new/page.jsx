@@ -169,7 +169,7 @@ const Page = () => {
                         </div>
                         {showableProperties.length > 0 && showableProperties.map(p => (
                             <div key={p} className='flex gap-2 mb-2 justify-between'>
-                                <div className='text-gray-500'>{p.name}</div>
+                                <div className='text-gray-500 mt-1'>{p.name}</div>
                                 <select
                                     value={productProperties[p.name]}
                                     onChange={e => handlePropertyChange(p.name, e.target.value)} className='w-[160px] h-8 border border-gray-500 rounded-xl appearance-none pl-3 outline-gray-500'>

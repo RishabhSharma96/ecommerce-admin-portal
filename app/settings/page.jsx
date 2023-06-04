@@ -7,6 +7,9 @@ import { getProviders, useSession, signIn, signOut } from 'next-auth/react'
 import Image from "next/image"
 import logo from "@public/logo.png"
 import { toast } from 'react-hot-toast'
+import {
+    BeatLoader
+} from 'react-spinners'
 
 const Page = () => {
 
@@ -135,73 +138,84 @@ const Page = () => {
             <div>
                 <div className="w-screen h-screen bg-blue-900 flex">
                     <Navbar />
-                    <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-8 lg:p-10 gap-3 xl:gap-4 items-center justify-center overflow-hidden overflow-y-scroll">
-                        <p className='text-blue-900 font-extrabold text-2xl xl:text-3xl mb-3 '>Shop-It Settings</p>
-                        {
-                            prePromotedProduct && (
-                                <div className='min-w-[250px] border border-gray-600 w-[60%] rounded-xl lg:p-1'>
-                                    <div className='bg-blue-900 text-white flex items-center h-12 justify-center font-bold text-xl rounded-t-xl'>Promoted Product</div>
-                                    <div>
-                                        <div className="flex mb-1">
-                                            <div className='w-[60%] flex flex-col gap-0 lg:gap-2 p-3 bg-blue-600 text-white font-bold text-l items-center'>
-                                                Product
-                                            </div>
-                                            <div className='w-[40%] flex flex-col gap-0 lg:gap-2 p-3 pl-5 bg-blue-600 text-white font-bold text-l items-center pr-3'>
-                                                Category
+                    {!productData &&
+                        (
+                            <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center justify-center overflow-hidden overflow-y-scroll">
+                                <BeatLoader
+                                    color="rgba(39, 39, 184, 0.82)" />
+                            </div>
+                        )
+                    }
+                    {productData &&
+                        (
+                            <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center overflow-hidden overflow-y-scroll">
+                                <p className='text-blue-900 font-extrabold text-2xl xl:text-3xl mb-3 '>Shop-It Settings</p>
+                                {
+                                    prePromotedProduct && (
+                                        <div className='min-w-[250px] border border-gray-600 w-[60%] rounded-xl lg:p-1'>
+                                            <div className='bg-blue-900 text-white flex items-center h-12 justify-center font-bold text-xl rounded-t-xl'>Promoted Product</div>
+                                            <div>
+                                                <div className="flex mb-1">
+                                                    <div className='w-[60%] flex flex-col gap-0 lg:gap-2 p-3 bg-blue-600 text-white font-bold text-l items-center'>
+                                                        Product
+                                                    </div>
+                                                    <div className='w-[40%] flex flex-col gap-0 lg:gap-2 p-3 pl-5 bg-blue-600 text-white font-bold text-l items-center pr-3'>
+                                                        Category
+                                                    </div>
+                                                </div>
+                                                {prePromotedProduct && prePromotedProduct.map((product, index) => {
+                                                    return (
+                                                        <div key={product._id} className="flex">
+                                                            <div className='w-[60%] flex gap-0 lg:gap-2 flex-col text-center justify-center overflow-hidden'>
+                                                                {product.productName}
+                                                            </div>
+                                                            <div className='w-[40%] flex gap-0 lg:gap-2 flex-col text-center justify-center overflow-hidden text-gray-500'>
+                                                                {product.productCategory.categoryName}
+                                                            </div>
+
+                                                        </div>
+                                                    )
+                                                })}
                                             </div>
                                         </div>
-                                        {prePromotedProduct && prePromotedProduct.map((product, index) => {
-                                            return (
-                                                <div key={product._id} className="flex">
-                                                    <div className='w-[60%] flex gap-0 lg:gap-2 flex-col text-center justify-center overflow-hidden'>
-                                                        {product.productName}
-                                                    </div>
-                                                    <div className='w-[40%] flex gap-0 lg:gap-2 flex-col text-center justify-center overflow-hidden text-gray-500'>
-                                                        {product.productCategory.categoryName}
-                                                    </div>
+                                    )
+                                }
 
-                                                </div>
-                                            )
-                                        })}
-                                    </div>
+                                <div className='flex flex-col justify-center items-center gap-3'>
+                                    <label className='text-blue-900 font-bold'>Select Product to be promoted</label>
+                                    <select value={newPromotedProductId} className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 appearance-none' onChange={(e) => setNewPromotedProductId(e.target.value)}>
+                                        <option value="">Choose Product</option>
+                                        {productData?.length > 0 &&
+                                            productData.map((product) => {
+                                                return (
+                                                    <option key={product._id} className='pr-3 text-grey-500' value={product._id}>{product.productName}</option>
+                                                )
+                                            })}
+                                    </select>
                                 </div>
-                            )
-                        }
+                                <button onClick={handleproductupdation} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex gap-3 items-center justify-center'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+                                    </svg>
 
-                        <div className='flex flex-col justify-center items-center gap-3'>
-                            <label className='text-blue-900 font-bold'>Select Product to be promoted</label>
-                            <select value={newPromotedProductId} className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 appearance-none' onChange={(e) => setNewPromotedProductId(e.target.value)}>
-                                <option value="">Choose Product</option>
-                                {productData?.length > 0 &&
-                                    productData.map((product) => {
-                                        return (
-                                            <option key={product._id} className='pr-3 text-grey-500' value={product._id}>{product.productName}</option>
-                                        )
-                                    })}
-                            </select>
-                        </div>
-                        <button onClick={handleproductupdation} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex gap-3 items-center justify-center'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
-                            </svg>
+                                    Set Product</button>
 
-                            Set Product</button>
+                                <input
+                                    className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 [appearance-textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+                                    type="number"
+                                    placeholder='Enter Shipping Price'
+                                    value={newShippingPrice}
+                                    onChange={e => setNewShippingPrice(e.target.value)}
+                                />
+                                <button onClick={UpdateShippingPrice} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex gap-3 items-center justify-center'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                                    </svg>
 
-                        <input
-                            className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 [appearance-textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-                            type="number"
-                            placeholder='Enter Shipping Price'
-                            value={newShippingPrice}
-                            onChange={e => setNewShippingPrice(e.target.value)}
-                        />
-                        <button onClick={UpdateShippingPrice} className='w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex gap-3 items-center justify-center'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-                            </svg>
+                                    Set Shipping Price</button>
 
-                            Set Shipping Price</button>
-
-                    </div>
+                            </div>
+                        )}
                 </div>
             </div>
         )
