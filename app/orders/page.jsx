@@ -8,6 +8,7 @@ import Image from "next/image"
 import logo from "@public/logo.png"
 import { toast } from 'react-hot-toast'
 import { BeatLoader } from 'react-spinners'
+import { motion } from 'framer-motion'
 
 const Page = () => {
 
@@ -76,7 +77,12 @@ const Page = () => {
                     {orderData.length > 0 && (
                         <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-10 xl:gap-4 items-center overflow-hidden overflow-y-scroll">
                             <span className='text-blue-900 font-extrabold text-3xl mb-3'>Orders</span>
-                            <div className='min-w-[250px] border border-gray-600 w-[78%] rounded-xl lg:p-1'>
+                            <motion.div
+                                transition={{ duration: 0.8 }}
+                                initial={{ opacity: 0, x: "+400px" }}
+                                animate={{ opacity: 1, x: "0px" }}
+                                exit={{ opacity: 0, x: "+400px" }}
+                                className='min-w-[250px] border border-gray-600 w-[78%] rounded-xl lg:p-1'>
                                 <div className='bg-blue-900 text-white flex items-center h-12 justify-center font-bold text-xl rounded-t-xl'>All Orders</div>
                                 <div>
                                     <div className="flex mb-1">
@@ -115,7 +121,7 @@ const Page = () => {
                                         )
                                     })}
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                     )}
                 </div>

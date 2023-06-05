@@ -7,12 +7,13 @@ import { getProviders, useSession, signIn, signOut } from 'next-auth/react'
 import Image from "next/image"
 import logo from "@public/logo.png"
 import { toast } from 'react-hot-toast'
-import { withSwal } from 'react-sweetalert2'
 import {
     BeatLoader
 } from 'react-spinners'
+import Swal from 'sweetalert2'
+import { motion } from 'framer-motion'
 
-const Page = ({ swal }) => {
+const Page = () => {
 
     const { data: session } = useSession();
 
@@ -30,7 +31,7 @@ const Page = ({ swal }) => {
 
     const handleCategoryClear = async () => {
 
-        swal.fire({
+        Swal.fire({
             title: 'Are You Sure?',
             text: 'This is a destructive action, Proceed?',
             showCancelButton: true,
@@ -107,7 +108,7 @@ const Page = ({ swal }) => {
     const handleAdminDelete = async (id) => {
 
 
-        swal.fire({
+        Swal.fire({
             title: 'Are You Sure?',
             text: 'Confirm delete ' + admin,
             showCancelButton: true,
@@ -176,7 +177,8 @@ const Page = ({ swal }) => {
                         )
                     }
                     {adminData.length > 0 && (
-                        <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-10 gap-3 xl:gap-4 items-center overflow-hidden overflow-y-scroll">
+                        <motion.div
+                            className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-10 gap-3 xl:gap-4 items-center overflow-hidden overflow-y-scroll">
                             <span className='text-blue-900 font-extrabold text-3xl mb-3'>Utilities</span>
                             <span className='text-blue-900 font-bold text-xl'>Clear All Products</span>
                             <button onClick={handleProductClear} className='w-[200px] bg-red-700 text-white font-bold h-10 rounded-xl hover:border hover:border-red-700 hover:text-red-700 hover:bg-white transition-all duration-300 flex justify-center items-center gap-4'>
@@ -213,7 +215,13 @@ const Page = ({ swal }) => {
                                             </div>
                                             {adminData.length > 0 && adminData.map((admin, index) => {
                                                 return (
-                                                    <div key={admin._id} className="flex">
+                                                    <motion.div
+                                                        transition={{ duration: 0.8 }}
+                                                        initial={{ opacity: 0, x: "+400px" }}
+                                                        animate={{ opacity: 1, x: "0px" }}
+                                                        exit={{ opacity: 0, x: "+400px" }}
+                                                        key={admin._id} className="flex">
+
                                                         <div className='w-[80%] flex gap-0 lg:gap-2 flex-col pl-5 text-center justify-center overflow-hidden'>
                                                             {admin.email}
                                                         </div>
@@ -224,7 +232,7 @@ const Page = ({ swal }) => {
                                                                 </svg>
                                                             </button>
                                                         </div>
-                                                    </div>
+                                                    </motion.div>
                                                 )
                                             })}
                                         </div>
@@ -248,7 +256,7 @@ const Page = ({ swal }) => {
                                 </svg>
 
                                 Add Admin</button>
-                        </div>
+                        </motion.div>
                     )}
                 </div>
             </div >
@@ -256,8 +264,4 @@ const Page = ({ swal }) => {
     }
 }
 
-// export default Page
-
-export default withSwal(({ swal }, ref) => (
-    <Page swal={swal} />
-))
+export default Page

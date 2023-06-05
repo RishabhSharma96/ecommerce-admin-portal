@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { signOut } from 'next-auth/react'
 import { usePathname, useRouter } from "next/navigation"
-import { withSwal } from "react-sweetalert2"
+import Swal from "sweetalert2"
 import { toast } from "react-hot-toast"
 
 const Navbar = ({ swal }) => {
@@ -15,7 +15,7 @@ const Navbar = ({ swal }) => {
 
     const logout = async () => {
 
-        swal.fire({
+        Swal.fire({
             title: 'Are You Sure to logout?',
             showCancelButton: true,
             cancelButtonText: 'Return',
@@ -111,8 +111,4 @@ const Navbar = ({ swal }) => {
     )
 }
 
-// export default Navbar
-
-export default withSwal(({ swal }, ref) => (
-    <Navbar swal={swal} />
-))
+export default Navbar

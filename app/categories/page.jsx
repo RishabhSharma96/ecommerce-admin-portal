@@ -7,10 +7,11 @@ import { getProviders, useSession, signIn, signOut } from 'next-auth/react'
 import Image from "next/image"
 import logo from "@public/logo.png"
 import { toast } from 'react-hot-toast'
-import { withSwal } from 'react-sweetalert2'
+import Swal from 'sweetalert2'
 import { BeatLoader } from 'react-spinners'
+import { motion } from 'framer-motion'
 
-const Page = ({ swal }) => {
+const Page = () => {
 
     const { data: session } = useSession();
 
@@ -91,7 +92,7 @@ const Page = ({ swal }) => {
 
     const deleteCategory = async (category) => {
 
-        swal.fire({
+        Swal.fire({
             title: 'Are You Sure?',
             text: 'Confirm delete ' + category.categoryName,
             showCancelButton: true,
@@ -159,29 +160,36 @@ const Page = ({ swal }) => {
     }
 
     if (!session) {
-        return (<div className="bg-blue-900 w-screen h-screen flex items-center justify-center">
-            <div className="flex flex-col items-center justify-center">
-                <Image src={logo} width={250} height={250} alt="Company logo" />
-                <span className="text-white font-bold text-lg">Welcome to Shop-it Admin Portal</span>
-                <button key={providers?.name} onClick={async () => {
-                    await signIn('google')
-                    toast.success("Logged In")
-                }} className="bg-white h-[2.5rem] w-[12rem] mt-5 rounded-lg text-blue-900 font-bold flex items-center justify-center gap-2">
-                    <span>
-                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" /></svg>
-                    </span>
-                    <div>
-                        <span className="text-green-500">Sign </span>
-                        <span className="text-blue-500">In </span>
-                        <span className="text-yellow-500">With </span>
-                        <span className="text-red-500">Google </span>
-                    </div>
-                </button>
-                <button className="bg-black h-[2.5rem] w-[12rem] mt-3 rounded-lg text-white font-bold flex items-center justify-center gap-2 hover:bg-white hover:text-black transition ease-in-out duration-500">
-                    <span>Request Admin Access</span>
-                </button>
-            </div>
-        </div>)
+        return (
+            <motion.div
+                className="bg-blue-900 w-screen h-screen flex items-center justify-center">
+                <motion.div
+                    transition={{ duration: 0.8 }}
+                    initial={{ opacity: 0, x: "+400px" }}
+                    animate={{ opacity: 1, x: "0px" }}
+                    exit={{ opacity: 0, x: "+400px" }}
+                    className="flex flex-col items-center justify-center">
+                    <Image src={logo} width={250} height={250} alt="Company logo" />
+                    <span className="text-white font-bold text-lg">Welcome to Shop-it Admin Portal</span>
+                    <button key={providers?.name} onClick={async () => {
+                        await signIn('google')
+                        toast.success("Logged In")
+                    }} className="bg-white h-[2.5rem] w-[12rem] mt-5 rounded-lg text-blue-900 font-bold flex items-center justify-center gap-2">
+                        <span>
+                            <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" /></svg>
+                        </span>
+                        <div>
+                            <span className="text-green-500">Sign </span>
+                            <span className="text-blue-500">In </span>
+                            <span className="text-yellow-500">With </span>
+                            <span className="text-red-500">Google </span>
+                        </div>
+                    </button>
+                    <button className="bg-black h-[2.5rem] w-[12rem] mt-3 rounded-lg text-white font-bold flex items-center justify-center gap-2 hover:bg-white hover:text-black transition ease-in-out duration-500">
+                        <span>Request Admin Access</span>
+                    </button>
+                </motion.div>
+            </motion.div>)
     }
 
     else {
@@ -201,7 +209,12 @@ const Page = ({ swal }) => {
 
                             <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-10 xl:gap-4 items-center overflow-hidden overflow-y-scroll">
                                 <span className='text-blue-900 font-extrabold text-3xl mb-3'>Categories</span>
-                                <div className='border-2 border-gray-300 p-3 gap-2 rounded-xl flex flex-col justify-center items-center xl:w-[900px]'>
+                                <motion.div
+                                    transition={{ duration: 0.8 }}
+                                    initial={{ opacity: 0, x: "-400px" }}
+                                    animate={{ opacity: 1, x: "0px" }}
+                                    exit={{ opacity: 0, x: "-400px" }}
+                                    className='border-2 border-gray-300 p-3 gap-2 rounded-xl flex flex-col justify-center items-center xl:w-[900px]'>
                                     <label className='text-blue-900 font-bold text-xl'>{editData ? `Edit Category "${editData.categoryName}"` : "Create New Category"}</label>
                                     <div className='flex flex-col lg:flex-row lg:gap-3'>
                                         <input
@@ -230,7 +243,9 @@ const Page = ({ swal }) => {
 
                                         {properties.length > 0 && properties.map((property, index) => {
                                             return (
-                                                <div className='flex flex-col lg:flex-row lg:gap-3 items-center' key={"d"}>
+                                                <motion.div
+
+                                                    className='flex flex-col lg:flex-row lg:gap-3 items-center' key={"d"}>
 
                                                     <input
                                                         type="text"
@@ -251,7 +266,7 @@ const Page = ({ swal }) => {
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                                         </svg>
                                                     </button>
-                                                </div>
+                                                </motion.div>
                                             )
                                         })
                                         }
@@ -263,7 +278,7 @@ const Page = ({ swal }) => {
                                             Add Properties</button>
 
                                     </div>
-                                </div>
+                                </motion.div>
                                 <div>{!editData ? (
                                     <button className='mt-2 mb-2 xl:mb-0 xl:mt-0 w-[200px] bg-blue-900 text-white font-bold h-10 rounded-xl hover:border hover:border-blue-900 hover:text-blue-900 hover:bg-white transition-all duration-300 flex items-center justify-center gap-3' onClick={createCategory}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -293,7 +308,12 @@ const Page = ({ swal }) => {
                                 {!editData && (
                                     <div className='min-w-[250px] border border-gray-600 w-[78%] rounded-xl lg:p-1'>
                                         <div className='bg-blue-900 text-white flex items-center h-12 justify-center font-bold text-xl rounded-t-xl'>Availaible Categories</div>
-                                        <div>
+                                        <motion.div
+
+                                            transition={{ duration: 0.8 }}
+                                            initial={{ opacity: 0, x: "+400px" }}
+                                            animate={{ opacity: 1, x: "0px" }}
+                                            exit={{ opacity: 0, x: "+400px" }}>
                                             <div className="flex mb-1">
                                                 <div className='w-[33.334%] flex flex-col gap-0 lg:gap-2 p-3 pl-5 bg-blue-600 text-white font-bold text-l items-center'>
                                                     Category
@@ -329,7 +349,7 @@ const Page = ({ swal }) => {
                                                     </div>
                                                 )
                                             })}
-                                        </div>
+                                        </motion.div>
                                     </div>
                                 )}
 
@@ -340,8 +360,4 @@ const Page = ({ swal }) => {
     }
 }
 
-// export default Page
-
-export default withSwal(({ swal }, ref) => (
-    <Page swal={swal} />
-))
+export default Page
