@@ -125,9 +125,9 @@ const HomePage = ({ children }) => {
                         <span className="text-red-500">Google </span>
                     </div>
                 </button>
-                <button className="bg-black h-[2.5rem] w-[12rem] mt-3 rounded-lg text-white font-bold flex items-center justify-center gap-2 hover:bg-white hover:text-black transition ease-in-out duration-500">
+                <a href="mailto:rishabhsharma96n@gmail.com?subject=Admin role wanted!!"><button className="bg-black h-[2.5rem] w-[12rem] mt-3 rounded-lg text-white font-bold flex items-center justify-center gap-2 hover:bg-white hover:text-black transition ease-in-out duration-500">
                     <span>Request Admin Access</span>
-                </button>
+                </button></a>
             </motion.div>
         </div>)
     }

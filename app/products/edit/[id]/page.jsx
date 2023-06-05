@@ -204,13 +204,13 @@ const Page = () => {
                         </div>
                         <div>
                             {showableProperties.length > 0 && showableProperties.map(p => (
-                                <div key={p} className='flex gap-2 mb-2 justify-between'>
+                                <div key={p._id} className='flex gap-2 mb-2 justify-between'>
                                     <div className='text-gray-500'>{p.name}</div>
                                     <select
                                         value={productProperties[p.name]}
                                         onChange={e => handlePropertyChange(p.name, e.target.value)} className='w-[160px] h-8 border border-gray-500 rounded-xl appearance-none pl-3 outline-gray-500'>
-                                        {p.values.map(p => (
-                                            <option key={p} value={p}>{p}</option>
+                                        {p.values.map((p,index) => (
+                                            <option key={index} value={p}>{p}</option>
                                         ))}
                                     </select>
                                 </div>

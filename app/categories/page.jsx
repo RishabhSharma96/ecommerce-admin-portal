@@ -245,7 +245,7 @@ const Page = () => {
                                             return (
                                                 <motion.div
 
-                                                    className='flex flex-col lg:flex-row lg:gap-3 items-center' key={"d"}>
+                                                    className='flex flex-col lg:flex-row lg:gap-3 items-center' key={index}>
 
                                                     <input
                                                         type="text"

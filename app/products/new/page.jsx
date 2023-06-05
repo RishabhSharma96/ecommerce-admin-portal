@@ -167,14 +167,14 @@ const Page = () => {
                                 onChange={(e) => setProductName(e.target.value)}
                             />
                         </div>
-                        {showableProperties.length > 0 && showableProperties.map(p => (
-                            <div key={p} className='flex gap-2 mb-2 justify-between'>
+                        {showableProperties.length > 0 && showableProperties.map((p,index) => (
+                            <div key={index} className='flex gap-2 mb-2 justify-between'>
                                 <div className='text-gray-500 mt-1'>{p.name}</div>
                                 <select
                                     value={productProperties[p.name]}
                                     onChange={e => handlePropertyChange(p.name, e.target.value)} className='w-[160px] h-8 border border-gray-500 rounded-xl appearance-none pl-3 outline-gray-500'>
-                                    {p.values.map(p => (
-                                        <option key={p} value={p}>{p}</option>
+                                    {p.values.map((p,index) => (
+                                        <option key={index} value={p}>{p}</option>
                                     ))}
                                 </select>
                             </div>
@@ -201,7 +201,7 @@ const Page = () => {
                                         {images.length > 0 ? (<>
                                             {images.map((image) => {
                                                 return (
-                                                    <img className='w-32 h-32 rounded-xl object-contain' src={image} alt="product-image" />
+                                                    <img key={image} className='w-32 h-32 rounded-xl object-contain' src={image} alt="product-image" />
                                                 )
                                             })}
                                         </>) : ""}
@@ -224,9 +224,9 @@ const Page = () => {
                             <select className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 appearance-none' onChange={(e) => setProductCategory(e.target.value)}>
                                 <option selected className='pr-3 text-grey-500' value="0">Select Category</option>
                                 {categoryData?.length > 0 &&
-                                    categoryData.map((category) => {
+                                    categoryData.map((category,index) => {
                                         return (
-                                            <option className='pr-3 text-grey-500' value={category._id}>{category.categoryName}</option>
+                                            <option key={index} className='pr-3 text-grey-500' value={category._id}>{category.categoryName}</option>
                                         )
                                     })}
                             </select>

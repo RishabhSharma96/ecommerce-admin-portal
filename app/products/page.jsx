@@ -143,7 +143,7 @@ const Page = () => {
                                     </div>
                                     {productData.length > 0 && productData.map((product) => {
                                         return (
-                                            <div className="flex">
+                                            <div key={product._id} className="flex">
                                                 <div className='w-[33.33%] lg:w-[50%] flex flex-col gap-2 pl-5 items-center justify-center'>
                                                     {product.productName}
                                                 </div>

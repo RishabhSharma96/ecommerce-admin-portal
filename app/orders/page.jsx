@@ -107,9 +107,9 @@ const Page = () => {
                                                 </div>
                                                 <div className='w-[40%] xl:w-[40%] flex flex-col gap-0 lg:gap-2 items-center justify-center'>
                                                     {
-                                                        order.line_items.map((items) => {
+                                                        order.line_items.map((items,index) => {
                                                             return (
-                                                                <div>
+                                                                <div key={index}>
                                                                     {items.quantity} x {items.price_data.product_data.name}
                                                                 </div>
                                                             )

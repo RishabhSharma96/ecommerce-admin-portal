@@ -8,6 +8,7 @@ import Image from "next/image"
 import logo from "@public/logo.png"
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
 import { motion } from 'framer-motion'
+import { toast } from 'react-hot-toast'
 
 const Page = () => {
 
@@ -114,7 +115,7 @@ const Page = () => {
                                                     <div className='w-[33.33%] flex gap-0 lg:gap-2 flex-col pl-5 overflow-hidden justify-center text-gray-400 items-start md:items-center  '>
                                                         {category.phoneNumber}
                                                     </div>
-                                                    <div className='w-[33.33%] flex pl-5 gap-[-2] lg:gap-2 overflow-hidden ml-[-10px] md:ml-0 items-start md:items-center'>
+                                                    <div className='w-[33.33%] flex pl-5 gap-[-2] lg:gap-2 overflow-hidden ml-[-10px] md:ml-0 items-start md:items-center justify-center'>
                                                         {category.address}
                                                     </div>
                                                 </div>
