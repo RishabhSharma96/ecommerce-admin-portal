@@ -7,6 +7,7 @@ import { getProviders, useSession, signIn, signOut } from 'next-auth/react'
 import Image from "next/image"
 import logo from "@public/logo.png"
 import { toast } from 'react-hot-toast'
+import { BeatLoader } from 'react-spinners'
 
 const Page = () => {
 
@@ -65,55 +66,58 @@ const Page = () => {
             <div>
                 <div className="w-screen h-screen bg-blue-900 flex">
                     <Navbar />
-                    <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-10 xl:gap-4 items-center overflow-hidden overflow-y-scroll">
-                        <span className='text-blue-900 font-extrabold text-3xl mb-3'>Orders</span>
-                        <div className='min-w-[250px] border border-gray-600 w-[78%] rounded-xl lg:p-1'>
-                            <div className='bg-blue-900 text-white flex items-center h-12 justify-center font-bold text-xl rounded-t-xl'>All Orders</div>
-                            <div>
-                                <div className="flex mb-1">
-                                    <div className='hidden xl:flex w-[20%] flex flex-col gap-0 lg:gap-2 p-3 bg-blue-600 text-white font-bold text-l items-center'>
-                                        Date
-                                    </div>
-                                    <div className='w-[40%] xl:w-[40%] flex flex-col gap-0 lg:gap-2 p-3 bg-blue-600 text-white font-bold text-l items-center'>
-                                        Recipient
-                                    </div>
-                                    <div className='w-[40%] xl:w-[30%] flex gap-0 lg:gap-2 p-3 bg-blue-600 text-white font-bold text-l justify-center'>
-                                        Products
-                                    </div>
-                                    <div className='w-[20%] xl:w-[10%] flex flex-col gap-0 lg:gap-2 p-3 bg-blue-600 text-white font-bold text-l items-center'>
-                                        Paid
-                                    </div>
-                                </div>
-                                {orderData.length > 0 && orderData.map((order) => {
-                                    return (
-                                        <div key={order._id} className="flex">
-                                            <div className='hidden xl:flex w-[20%] w-[33.33%] flex flex-col gap-0 lg:gap-2 items-center justify-center'>
-                                                {order.createdAt.split('T')[0]}
-                                            </div>
-                                            <div className='w-[40%] xl:w-[40%] w-[33.33%] flex flex-col gap-0 lg:gap-2 items-center justify-center'>
-                                                {order.name}
-                                            </div>
-                                            <div className='w-[40%] xl:w-[30%] w-[33.33%] flex flex-col gap-0 lg:gap-2 items-center justify-center'>
-                                                {
-                                                    order.line_items.map((items) => {
-                                                        return (
-                                                            <div>
-                                                                {items.quantity} x {items.price_data.product_data.name}
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-                                            </div>
-                                            <div className='w-[20%] xl:w-[10%] w-[33.33%] flex flex-col gap-0 lg:gap-2 items-center justify-center'>
-                                                {order.paid ? "YES" : 'NO'}
-                                            </div>
-                                            <hr className='bg-blue-900 h-2'></hr>
+                    {!orderData.length &&
+                        (
+                            <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-5 gap-4 items-center justify-center overflow-hidden overflow-y-scroll">
+                                <BeatLoader color="rgba(39, 39, 184, 0.82)" />
+                            </div>
+                        )
+                    }
+                    {orderData.length > 0 && (
+                        <div className="bg-white flex flex-col flex-grow ml-[-10px] m-2 rounded-xl p-10 xl:gap-4 items-center overflow-hidden overflow-y-scroll">
+                            <span className='text-blue-900 font-extrabold text-3xl mb-3'>Orders</span>
+                            <div className='min-w-[250px] border border-gray-600 w-[78%] rounded-xl lg:p-1'>
+                                <div className='bg-blue-900 text-white flex items-center h-12 justify-center font-bold text-xl rounded-t-xl'>All Orders</div>
+                                <div>
+                                    <div className="flex mb-1">
+                                        <div className='w-[20%] xl:w-[20%] flex flex-col gap-0 lg:gap-2 bg-blue-600 text-white font-bold text-l items-center justify-center'>
+                                            Date
                                         </div>
-                                    )
-                                })}
+                                        <div className='w-[40%] xl:w-[40%] flex flex-col gap-0 lg:gap-2 p-3 bg-blue-600 text-white font-bold text-l items-center justify-center '>
+                                            Recipient
+                                        </div>
+                                        <div className='w-[40%] xl:w-[40%] flex gap-0 lg:gap-2 p-3 bg-blue-600 text-white font-bold text-l justify-center items-center'>
+                                            Products
+                                        </div>
+                                    </div>
+                                    {orderData.length > 0 && orderData.map((order) => {
+                                        return (
+                                            <div key={order._id} className="flex">
+                                                <div className=' w-[20%] xl:w-[20%] flex flex-col gap-0 lg:gap-2 items-center justify-center pl-1'>
+                                                    {order.createdAt.split('T')[0]}
+                                                </div>
+                                                <div className='w-[40%] xl:w-[40%]  flex flex-col gap-0 lg:gap-2 items-center justify-center'>
+                                                    {order.name}
+                                                </div>
+                                                <div className='w-[40%] xl:w-[40%] flex flex-col gap-0 lg:gap-2 items-center justify-center'>
+                                                    {
+                                                        order.line_items.map((items) => {
+                                                            return (
+                                                                <div>
+                                                                    {items.quantity} x {items.price_data.product_data.name}
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                                <hr className='bg-blue-900 h-2'></hr>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         )
