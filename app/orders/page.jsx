@@ -109,7 +109,7 @@ const Page = () => {
                                                     {
                                                         order.line_items.map((items,index) => {
                                                             return (
-                                                                <div key={index}>
+                                                                <div key={items?.price_data?.product_data?.name}>
                                                                     {items.quantity} x {items.price_data.product_data.name}
                                                                 </div>
                                                             )

@@ -168,13 +168,13 @@ const Page = () => {
                             />
                         </div>
                         {showableProperties.length > 0 && showableProperties.map((p,index) => (
-                            <div key={index} className='flex gap-2 mb-2 justify-between'>
+                            <div key={p.name} className='flex gap-2 mb-2 justify-between'>
                                 <div className='text-gray-500 mt-1'>{p.name}</div>
                                 <select
                                     value={productProperties[p.name]}
                                     onChange={e => handlePropertyChange(p.name, e.target.value)} className='w-[160px] h-8 border border-gray-500 rounded-xl appearance-none pl-3 outline-gray-500'>
                                     {p.values.map((p,index) => (
-                                        <option key={index} value={p}>{p}</option>
+                                        <option key={p} value={p}>{p}</option>
                                     ))}
                                 </select>
                             </div>
@@ -226,7 +226,7 @@ const Page = () => {
                                 {categoryData?.length > 0 &&
                                     categoryData.map((category,index) => {
                                         return (
-                                            <option key={index} className='pr-3 text-grey-500' value={category._id}>{category.categoryName}</option>
+                                            <option key={category._id} className='pr-3 text-grey-500' value={category._id}>{category.categoryName}</option>
                                         )
                                     })}
                             </select>

@@ -23,6 +23,8 @@ const HomePage = ({ children }) => {
     const [customers, setCustomers] = useState(0)
     const [items, setitems] = useState(0)
     const [price, setprice] = useState(0)
+    const [paid, setpaid] = useState(0)
+    const [unpaid, setunpaid] = useState(0)
     const router = useRouter()
 
     useEffect(() => {
@@ -100,6 +102,19 @@ const HomePage = ({ children }) => {
         geti();
     }, [])
 
+    useEffect(() => {
+        const getpaidunpiaid = async () => {
+            await axios.get("/api/orders/paidunpiad").then((response) => {
+                console.log(response.data)
+                setpaid(response.data.paid)
+                setunpaid(response.data.unpaid)
+            }).catch((err) => {
+                console.log(err.messagde)
+            })
+        }
+        getpaidunpiaid()
+    }, [])
+
 
     if (!session) {
         return (<div className="bg-blue-900 w-screen h-screen flex items-center justify-center">
@@ -162,7 +177,7 @@ const HomePage = ({ children }) => {
                             )
                         }
                         {products && categories && orders.length > 0 && admins && customers && items && price && (
-                            <div className="bg-white flex flex-col flex-grow ml-[-10px]rounded-xl p-5 gap-5 items-center ">
+                            <div className="bg-white flex flex-col flex-grow ml-[-10px]rounded-xl p-5 gap-5 items-center justify-center ">
 
                                 <p className='text-blue-900 font-extrabold text-2xl xl:text-3xl mb-3 '>Shop-It Analytics</p>
 
@@ -229,8 +244,9 @@ const HomePage = ({ children }) => {
 
                                         className="flex w-[15rem] h-[10rem] p-2 rounded-xl text-white  bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 gap-5 justify-center items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0015 2.25h-1.5a2.251 2.251 0 00-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 00-9-9z" />
                                         </svg>
+
 
 
 
@@ -291,6 +307,41 @@ const HomePage = ({ children }) => {
                                         <div className="flex flex-col justify-center items-center">
                                             <span className="text-2xl font-bold">Profit</span>
                                             <span className="text-3xl font-extrabold">{price}</span>
+                                        </div>
+                                    </motion.div>
+
+                                    <motion.div
+                                        transition={{ duration: 0.8 }}
+                                        initial={{ opacity: 0, x: "-400px" }}
+                                        animate={{ opacity: 1, x: "0px" }}
+                                        exit={{ opacity: 0, x: "-400px" }}
+
+                                        className="flex w-[15rem] h-[10rem] p-2 rounded-xl text-white  bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 gap-5 justify-center items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />
+                                        </svg>
+                                        <div className="flex flex-col justify-center items-center">
+                                            <span className="text-2xl font-bold">Paid Orders</span>
+                                            <span className="text-3xl font-extrabold">{paid}</span>
+                                        </div>
+                                    </motion.div>
+
+                                    <motion.div
+                                        transition={{ duration: 0.8 }}
+                                        initial={{ opacity: 0, x: "+400px" }}
+                                        animate={{ opacity: 1, x: "0px" }}
+                                        exit={{ opacity: 0, x: "+400px" }}
+
+                                        className="flex w-[15rem] h-[10rem] p-2 rounded-xl text-white  bg-gradient-to-r from-indigo-500 to-indigo-200 gap-5 justify-center items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                                        </svg>
+
+
+
+                                        <div className="flex flex-col justify-center items-center">
+                                            <span className="text-2xl font-bold">Unpaid Order</span>
+                                            <span className="text-3xl font-extrabold">{unpaid}</span>
                                         </div>
                                     </motion.div>
 
