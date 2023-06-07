@@ -57,7 +57,7 @@ const Page = () => {
 
     const handleProductClear = async () => {
 
-        swal.fire({
+        Swal.fire({
             title: 'Are You Sure?',
             text: 'This is a destructive action, Proceed?',
             showCancelButton: true,
@@ -98,7 +98,13 @@ const Page = () => {
     }
 
     const getAdmins = async () => {
-        await axios.get("/api/utilities/admin").then((response) => {
+        await axios.get("/api/utilities/admin",{
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires' : '0',
+            }
+        }).then((response) => {
             setAdminData(response.data)
         }).catch((err) => {
             console.log(err.message)

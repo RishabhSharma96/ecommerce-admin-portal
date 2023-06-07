@@ -37,7 +37,13 @@ const HomePage = ({ children }) => {
 
     useEffect(() => {
         const get = async () => {
-            await axios.get("/api/product").then((response) => {
+            await axios.get("/api/product", {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }).then((response) => {
                 setProducts(response.data.length)
             }).catch((err) => {
                 console.log(err.message)
@@ -48,7 +54,13 @@ const HomePage = ({ children }) => {
 
     useEffect(() => {
         const getC = async () => {
-            await axios.get("/api/category").then((response) => {
+            await axios.get("/api/category", {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }).then((response) => {
                 setCategories(response.data.length)
             }).catch((err) => {
                 console.log(err.message)
@@ -59,7 +71,13 @@ const HomePage = ({ children }) => {
 
     useEffect(() => {
         const geta = async () => {
-            await axios.get("/api/utilities/admin").then((response) => {
+            await axios.get("/api/utilities/admin", {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }).then((response) => {
                 setAdmins(response.data.length)
             }).catch((err) => {
                 console.log(err.message)
@@ -70,7 +88,13 @@ const HomePage = ({ children }) => {
 
     useEffect(() => {
         const getcu = async () => {
-            await axios.get("/api/customer").then((response) => {
+            await axios.get("/api/customer", {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }).then((response) => {
                 setCustomers(response.data.length)
             }).catch((err) => {
                 console.log(err.message)
@@ -81,7 +105,13 @@ const HomePage = ({ children }) => {
 
     useEffect(() => {
         const geto = async () => {
-            await axios.get("/api/orders").then(async (response) => {
+            await axios.get("/api/orders", {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }).then(async (response) => {
                 setOrders(response.data)
             }).catch((err) => {
                 console.log(err.message)
@@ -92,7 +122,13 @@ const HomePage = ({ children }) => {
 
     useEffect(() => {
         const geti = async () => {
-            await axios.get("/api/orders/items").then((response) => {
+            await axios.get("/api/orders/items", {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }).then((response) => {
                 setitems(response.data.value)
                 setprice(response.data.price)
             }).catch((err) => {
@@ -104,7 +140,13 @@ const HomePage = ({ children }) => {
 
     useEffect(() => {
         const getpaidunpiaid = async () => {
-            await axios.get("/api/orders/paidunpiad").then((response) => {
+            await axios.get("/api/orders/paidunpiad", {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }).then((response) => {
                 console.log(response.data)
                 setpaid(response.data.paid)
                 setunpaid(response.data.unpaid)

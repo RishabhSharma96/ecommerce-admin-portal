@@ -16,7 +16,13 @@ const Page = () => {
 
     useEffect(() => {
         const getCustomers = async () => {
-            await axios.get("/api/customer").then((res) => {
+            await axios.get("/api/customer", {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }).then((res) => {
                 setCustomers(res.data)
             }).catch((err) => {
                 console.log(err.message)

@@ -41,7 +41,13 @@ const Page = () => {
 
     const getProduct = async () => {
         setIsUploadingProducts(true)
-        await axios.get(`/api/product/${id}`).then((response) => {
+        await axios.get(`/api/product/${id}`, {
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires': '0',
+            }
+        }).then((response) => {
             setProductName(response.data[0].productName)
             setProductDescription(response.data[0].productDescription)
             setImages(response.data[0].productImages)
@@ -56,7 +62,13 @@ const Page = () => {
 
     const getCategories = async () => {
         setIsUploadingCategories(true)
-        await axios.get("/api/category").then((response) => {
+        await axios.get("/api/category", {
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires': '0',
+            }
+        }).then((response) => {
             setCategoryData(response.data)
         }).catch((err) => {
             console.log(err.message)
@@ -209,7 +221,7 @@ const Page = () => {
                                     <select
                                         value={productProperties[p.name]}
                                         onChange={e => handlePropertyChange(p.name, e.target.value)} className='w-[160px] h-8 border border-gray-500 rounded-xl appearance-none pl-3 outline-gray-500'>
-                                        {p.values.map((p,index) => (
+                                        {p.values.map((p, index) => (
                                             <option key={index} value={p}>{p}</option>
                                         ))}
                                     </select>

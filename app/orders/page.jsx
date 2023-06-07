@@ -27,7 +27,13 @@ const Page = () => {
 
     useEffect(() => {
         const getData = async () => {
-            await axios.get("/api/orders").then((response) => {
+            await axios.get("/api/orders", {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }).then((response) => {
                 setOrderData(response.data)
             }).catch((err) => {
                 console.log(err.message)
@@ -107,7 +113,7 @@ const Page = () => {
                                                 </div>
                                                 <div className='w-[40%] xl:w-[40%] flex flex-col gap-0 lg:gap-2 items-center justify-center'>
                                                     {
-                                                        order.line_items.map((items,index) => {
+                                                        order.line_items.map((items, index) => {
                                                             return (
                                                                 <div key={items?.price_data?.product_data?.name}>
                                                                     {items.quantity} x {items.price_data.product_data.name}

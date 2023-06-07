@@ -25,7 +25,13 @@ const Page = () => {
     const router = useRouter()
 
     const getCategories = async () => {
-        await axios.get("/api/category").then((response) => {
+        await axios.get("/api/category", {
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires': '0',
+            }
+        }).then((response) => {
             setCategoryData(response.data)
         }).catch((err) => {
             console.log(err.message)
@@ -79,7 +85,7 @@ const Page = () => {
 
     const addProduct = async () => {
 
-        if(!productName || !productCategory || !productDescription ||  !images || !productPrice){
+        if (!productName || !productCategory || !productDescription || !images || !productPrice) {
             toast.error("Please enter all the details")
             return
         }
@@ -167,13 +173,13 @@ const Page = () => {
                                 onChange={(e) => setProductName(e.target.value)}
                             />
                         </div>
-                        {showableProperties.length > 0 && showableProperties.map((p,index) => (
+                        {showableProperties.length > 0 && showableProperties.map((p, index) => (
                             <div key={p.name} className='flex gap-2 mb-2 justify-between'>
                                 <div className='text-gray-500 mt-1'>{p.name}</div>
                                 <select
                                     value={productProperties[p.name]}
                                     onChange={e => handlePropertyChange(p.name, e.target.value)} className='w-[160px] h-8 border border-gray-500 rounded-xl appearance-none pl-3 outline-gray-500'>
-                                    {p.values.map((p,index) => (
+                                    {p.values.map((p, index) => (
                                         <option key={p} value={p}>{p}</option>
                                     ))}
                                 </select>
@@ -224,7 +230,7 @@ const Page = () => {
                             <select className='h-10 w-[250px] md:w-[400px] border border-gray-500 rounded-xl p-2 pl-4 focus:outline-blue-500 appearance-none' onChange={(e) => setProductCategory(e.target.value)}>
                                 <option selected className='pr-3 text-grey-500' value="0">Select Category</option>
                                 {categoryData?.length > 0 &&
-                                    categoryData.map((category,index) => {
+                                    categoryData.map((category, index) => {
                                         return (
                                             <option key={category._id} className='pr-3 text-grey-500' value={category._id}>{category.categoryName}</option>
                                         )

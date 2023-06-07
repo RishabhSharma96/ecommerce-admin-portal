@@ -117,7 +117,13 @@ const Page = () => {
     }
 
     const getCategories = async () => {
-        await axios.get("/api/category").then((response) => {
+        await axios.get("/api/category", {
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires' : '0',
+            }
+        }).then((response) => {
             setCategoryData(response.data)
             console.log(response)
         }).catch((err) => {
@@ -361,3 +367,4 @@ const Page = () => {
 }
 
 export default Page
+

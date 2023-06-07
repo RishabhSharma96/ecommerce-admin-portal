@@ -20,7 +20,13 @@ const Page = () => {
     const [productData, setProductData] = useState([])
 
     const getProducts = async () => {
-        await axios.get("/api/product").then((response) => {
+        await axios.get("/api/product", {
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires': '0',
+            }
+        }).then((response) => {
             console.log(response.data);
             setProductData(response.data)
         }).catch((err) => {

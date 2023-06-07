@@ -32,7 +32,13 @@ const Page = () => {
     }, [])
 
     const getPromotedProduct = async () => {
-        await axios.get("/api/settings/promoted").then((response) => {
+        await axios.get("/api/settings/promoted",{
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires' : '0',
+            }
+        }).then((response) => {
             setPrePromotedProduct(response.data)
             setPrePromotedProductId(response.data[0]._id)
         }).catch((err) => {
@@ -45,7 +51,13 @@ const Page = () => {
     }, [])
 
     const getProducts = async () => {
-        await axios.get("/api/product").then((response) => {
+        await axios.get("/api/product",{
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires' : '0',
+            }
+        }).then((response) => {
             console.log(response.data);
             setProductData(response.data)
         }).catch((err) => {
@@ -80,7 +92,13 @@ const Page = () => {
     }
 
     const getShippingDetails = async () => {
-        await axios.get("/api/settings/shipping").then((response) => {
+        await axios.get("/api/settings/shipping",{
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires' : '0',
+            }
+        }).then((response) => {
             setCurrrentShippingDetails(response.data)
             setNewShippingPrice(response.data[0].shippingPrice)
         }).catch((err) => {
