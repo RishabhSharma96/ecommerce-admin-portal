@@ -1,11 +1,10 @@
 import Order from "@models/order";
-import { connectToDB } from "@utils/database";
-
+import { connectToDB } from '@lib/mongoose';
 export const GET = async (req) => {
 
     try {
         await connectToDB()
-        const data = await Order.find().sort({createdAt: -1})
+        const data = await Order.find().sort({ createdAt: -1 })
         return new Response(JSON.stringify(data), { status: 201 })
     }
     catch (err) {

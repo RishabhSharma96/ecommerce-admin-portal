@@ -1,5 +1,5 @@
 import Category from "@models/category";
-import { connectToDB } from "@utils/database";
+import { connectToDB } from '@lib/mongoose';
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb"
 

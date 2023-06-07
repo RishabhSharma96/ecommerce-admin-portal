@@ -1,9 +1,10 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-
 import User from '@models/user';
 import Admin from '@models/admin';
-import { connectToDB } from '@utils/database';
+import clientPromise from "@/lib/mongodb";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import { connectToDB } from '@lib/mongoose';
 
 var adminEmails = []
 
@@ -14,13 +15,15 @@ const handler = NextAuth({
             clientSecret: process.env.GOOGLE_SECRET,
         })
     ],
+    secret: process.env.NEXTAUTH_SECRET,
+    adapter: MongoDBAdapter(clientPromise),
     callbacks: {
         async session({ session, token, user }) {
 
             try {
 
-                await connectToDB();
 
+                await connectToDB();
                 const data = await Admin.find()
                 data.map(admin => adminEmails.push(admin.email))
                 console.log(adminEmails)

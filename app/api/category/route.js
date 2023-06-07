@@ -1,5 +1,5 @@
 import Category from "@models/category";
-import { connectToDB } from "@utils/database";
+import { connectToDB } from '@lib/mongoose';
 
 export const GET = async (req) => {
 

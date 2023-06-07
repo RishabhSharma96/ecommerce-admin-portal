@@ -1,6 +1,5 @@
 import Product from "@models/product";
-import { connectToDB } from "@utils/database";
-
+import { connectToDB } from '@lib/mongoose';
 export const POST = async (req) => {
 
     const { productName,
@@ -15,7 +14,7 @@ export const POST = async (req) => {
         const data = new Product({
             productName,
             productDescription,
-            productCategory : productCategory === "" ? undefined : productCategory,
+            productCategory: productCategory === "" ? undefined : productCategory,
             productImages: images,
             productPrice,
             properties,

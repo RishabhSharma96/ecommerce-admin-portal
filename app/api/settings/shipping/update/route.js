@@ -1,6 +1,5 @@
 import Shipping from "@models/shipping";
-import { connectToDB } from "@utils/database";
-
+import { connectToDB } from '@lib/mongoose';
 export const PATCH = async (req) => {
 
     const { currentshippingPrice, id } = await req.json()

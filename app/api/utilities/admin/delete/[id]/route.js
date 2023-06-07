@@ -1,6 +1,5 @@
 import Admin from "@models/admin";
-import { connectToDB } from "@utils/database";
-
+import { connectToDB } from '@lib/mongoose';
 export const DELETE = async (req, { params }) => {
 
     const _id = params.id

@@ -1,6 +1,5 @@
 import Admin from "@models/admin";
-import { connectToDB } from "@utils/database";
-
+import { connectToDB } from '@lib/mongoose';
 export const GET = async (req) => {
 
     try {

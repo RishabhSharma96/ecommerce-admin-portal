@@ -1,6 +1,5 @@
 import Product from "@models/product";
-import { connectToDB } from "@utils/database";
-
+import { connectToDB } from '@lib/mongoose';
 export const DELETE = async (req) => {
 
     try {

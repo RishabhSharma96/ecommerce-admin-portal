@@ -1,21 +1,20 @@
 import Order from "@models/order";
-import { connectToDB } from "@utils/database";
-
+import { connectToDB } from '@lib/mongoose';
 export const GET = async (req) => {
 
     try {
         await connectToDB()
         // const paiddata = await Order.find()
-        const paiddata = await Order.find({paid : true})
-        const unpaiddata = await Order.find({paid : false})
+        const paiddata = await Order.find({ paid: true })
+        const unpaiddata = await Order.find({ paid: false })
 
         // console.log(paiddata)
         // console.log("dfgdfgdg")
         // // console.log(unpaiddata)
 
         return new Response(JSON.stringify({
-            paid : paiddata.length,
-            unpaid : unpaiddata.length,
+            paid: paiddata.length,
+            unpaid: unpaiddata.length,
         }), { status: 201 })
     }
     catch (err) {

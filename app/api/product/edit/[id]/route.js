@@ -1,19 +1,18 @@
 import Product from "@models/product";
-import { connectToDB } from "@utils/database";
-
-export const PUT = async (req, {params}) => {
+import { connectToDB } from '@lib/mongoose';
+export const PUT = async (req, { params }) => {
 
     const id = params.id
 
-    const { productName, productDescription, images, productPrice, productCategory , properties} = await req.json()
+    const { productName, productDescription, images, productPrice, productCategory, properties } = await req.json()
 
     try {
         await connectToDB()
-        const data = await Product.updateOne({_id: id}, {
+        const data = await Product.updateOne({ _id: id }, {
             productName,
             productCategory,
             productDescription,
-            productImages : images,
+            productImages: images,
             productPrice,
             properties
         })

@@ -1,6 +1,5 @@
 import Category from "@models/category";
-import { connectToDB } from "@utils/database";
-
+import { connectToDB } from '@lib/mongoose';
 export const PUT = async (req) => {
 
     const { categoryName, parentCategory, id, properties } = await req.json()

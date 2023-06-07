@@ -1,6 +1,5 @@
 import Admin from "@models/admin";
-import { connectToDB } from "@utils/database";
-
+import { connectToDB } from '@lib/mongoose';
 export const POST = async (req) => {
 
     const { email } = await req.json()
